@@ -16,7 +16,7 @@ router.route("/")
     .post( // Create new listing with validation
         isLoggedIn,
         sanitizeInput,
-        validateListing,
+        // validateListing,
         upload.single('listing[image]'), // Handle single file upload with field name 'listing[image]'
         wrapAsync(ListingController.createListing)
       );
@@ -49,8 +49,9 @@ router.route("/:id/edit")
         validateObjectId('id'),
         isLoggedIn, 
         isListingOwner, 
+        upload.single('listing[image]'), // Handle single file upload with field name 'listing[image]'
         sanitizeInput,
-        validateListing, 
+        // validateListing, 
         wrapAsync(ListingController.updateListing)
     );
 

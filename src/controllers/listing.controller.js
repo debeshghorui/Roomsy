@@ -52,6 +52,15 @@ class ListingController {
         }
 
         const listing = await ListingController.findListingOrThrow(id);
+
+        if (listing.image && listing.image.url) {
+            let lowResImageUrl = listing.image.url;
+
+            lowResImageUrl = lowResImageUrl.replace("/upload/", "/upload/h_200,w_350/");
+
+            listing.image.url = lowResImageUrl;
+        }
+
         res.render("listings/edit", { listing });
     }
 
@@ -90,7 +99,7 @@ class ListingController {
     // Update listing
     static async updateListing(req, res) {
         const { id } = req.params;
-        const { title, description, location, country, price, image } = req.body;
+        const { title, description, location, country, price } = req.body;
 
         // Validate ObjectId format
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -109,11 +118,14 @@ class ListingController {
         if (country) updateData.country = country.trim();
         if (price) updateData.price = parseFloat(price);
 
-        if (image) {
-            updateData.image = {
-                filename: "listingimage",
-                url: image.trim() || "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
-            };
+        if (typeof req.file !== 'undefined') {
+            let { filename, path } = req.file || {};
+            if (filename && path) {
+                updateData.image = {
+                    filename: filename,
+                    url: path.trim() ? path.trim() : "https://images.unsplash.com/photo-1625505826533-5c80aca7d157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+                };
+            }
         }
 
         const updatedListing = await Listing.findByIdAndUpdate(id, updateData, {
