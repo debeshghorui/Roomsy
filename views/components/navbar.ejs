@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary fs-3" href="/">
+            <i class="fa-regular fa-compass me-2"></i>WanderLust
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <!-- Main Navigation Links -->
+            <div class="navbar-nav me-auto">
+                <a class="nav-link fw-semibold" href="/">
+                    <i class="fas fa-home me-1"></i>Home
+                </a>
+                <a class="nav-link fw-semibold" href="/listings">
+                    <i class="fas fa-list me-1"></i>All Listings
+                </a>
+                <!-- Show Add Listing only if user is logged in -->
+                <% if (typeof currentUser !=='undefined' && currentUser) { %>
+                    <a class="nav-link fw-semibold" href="/listings/new">
+                        <i class="fas fa-plus me-1"></i>Add Listing
+                    </a>
+                    <% } %>
+            </div>
+
+            <!-- Authentication Links -->
+            <div class="navbar-nav">
+                <% if (typeof currentUser !=='undefined' && currentUser) { %>
+                    <!-- User is logged in -->
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-semibold d-flex align-items-center" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                                style="width: 35px; height: 35px;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <%= currentUser.username || currentUser.email || 'User' %>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow rounded-3">
+                            <li>
+                                <a class="dropdown-item py-2" href="/listings">
+                                    <i class="fas fa-user-circle me-2 text-primary"></i>My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="/listings">
+                                    <i class="fas fa-building me-2 text-success"></i>My Listings
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="/listings">
+                                    <i class="fas fa-calendar-check me-2 text-info"></i>My Bookings
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="/listings">
+                                    <i class="fas fa-cog me-2 text-secondary"></i>Settings
+                                </a>
+                            </li>
+                            <li>
+                                <form action="/auth/logout" method="GET" class="d-inline">
+                                    <button type="submit" class="dropdown-item py-2 text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <% } else { %>
+                        <!-- User is not logged in -->
+                        <a class="nav-link fw-semibold me-2" href="/auth/login">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                        <a class="btn btn-primary rounded-pill px-3 py-2" href="/auth/signup">
+                            <i class="fas fa-user-plus me-1"></i>Sign Up
+                        </a>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Listings - WanderLust</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-light">
+    <!-- Include Navbar -->
+    <%- include('../components/navbar') %>
+        <%- include('../components/flash') %>
+
+            <div class="container py-5">
+                <!-- Enhanced Header Section -->
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary mb-3">
+                        <i class="fas fa-building me-3"></i>
+                        Property Listings
+                    </h1>
+                    <p class="fs-5 text-muted">Discover amazing properties around the world</p>
+                    <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
+                        <span class="badge bg-primary fs-6 px-3 py-2">
+                            <i class="fas fa-home me-2"></i>
+                            <%= listings.length %> Properties
+                        </span>
+                        <span class="badge bg-success fs-6 px-3 py-2">
+                            <i class="fas fa-star me-2"></i>Top Rated
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Enhanced Listings Grid -->
+                <div class="row g-4">
+                    <% listings.forEach((listing, index)=> { %>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden position-relative">
+                                <!-- Image with overlay -->
+                                <div class="position-relative overflow-hidden" style="height: 250px;">
+                                    <% if (listing.image && listing.image.url) { %>
+                                        <img src="<%= listing.image.url %>"
+                                            class="card-img-top w-100 h-100 object-fit-cover"
+                                            alt="<%= listing.title %>">
+                                        <% } else { %>
+                                            <img src="https://via.placeholder.com/400x250.png?text=No+Image"
+                                                class="card-img-top w-100 h-100 object-fit-cover" alt="No Image">
+                                            <% } %>
+
+                                                <!-- Price Badge -->
+                                                <div class="position-absolute top-0 end-0 m-3">
+                                                    <span class="badge bg-success fs-6 px-3 py-2 shadow">
+                                                        ₹<%= listing.price.toLocaleString("en-IN") %>
+                                                    </span>
+                                                </div>
+
+                                                <!-- Rating Badge -->
+                                                <% if (listing.reviews && listing.reviews.length> 0) { %>
+                                                    <% const totalRating=listing.reviews.reduce((sum, review)=> sum +
+                                                        review.rating, 0);
+                                                        const averageRating = (totalRating /
+                                                        listing.reviews.length).toFixed(1);
+                                                        %>
+                                                        <div class="position-absolute top-0 start-0 m-3">
+                                                            <span
+                                                                class="badge bg-warning text-dark fs-6 px-2 py-2 shadow">
+                                                                <i class="fas fa-star me-1"></i>
+                                                                <%= averageRating %>
+                                                            </span>
+                                                        </div>
+                                                        <% } %>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <!-- Title -->
+                                    <h5 class="card-title fw-bold text-dark mb-3">
+                                        <i class="fas fa-home text-primary me-2"></i>
+                                        <%= listing.title %>
+                                    </h5>
+
+                                    <!-- Description -->
+                                    <p class="card-text text-muted mb-3 flex-grow-1">
+                                        <%= listing.description.length> 120 ? listing.description.substring(0, 120) +
+                                            "..." : listing.description %>
+                                    </p>
+
+                                    <!-- Location -->
+                                    <div class="mb-3">
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                                            <span class="fw-semibold">
+                                                <%= listing.location %>, <%= listing.country %>
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Rating Display -->
+                                    <% if (listing.reviews && listing.reviews.length> 0) { %>
+                                        <% const totalRating=listing.reviews.reduce((sum, review)=> sum + review.rating,
+                                            0);
+                                            const averageRating = (totalRating / listing.reviews.length).toFixed(1);
+                                            const fullStars = Math.floor(averageRating);
+                                            %>
+                                            <div class="mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2">
+                                                        <% for (let i=1; i <=5; i++) { %>
+                                                            <span
+                                                                class="<%= i <= fullStars ? 'text-warning' : 'text-muted' %>">★</span>
+                                                            <% } %>
+                                                    </div>
+                                                    <span class="text-dark fw-semibold me-2">
+                                                        <%= averageRating %>
+                                                    </span>
+                                                    <span class="text-muted small">(<%= listing.reviews.length %>
+                                                            <%= listing.reviews.length===1 ? 'review' : 'reviews' %>)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                    <% } else { %>
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-2">
+                                                    <% for (let i=1; i <=5; i++) { %>
+                                                        <span class="text-muted starability-result">★</span>
+                                                    <% } %>
+                                                </div>
+                                                <span class="text-muted small">No reviews yet</span>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="d-grid gap-2 mt-auto">
+                                        <a href="/listings/<%= listing._id %>"
+                                            class="btn btn-primary rounded-pill">
+                                            <i class="fas fa-eye me-2"></i>View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+
+                <!-- Empty State -->
+                <% if (listings.length===0) { %>
+                    <div class="text-center py-5">
+                        <div class="py-5">
+                            <i class="fas fa-home display-1 text-muted mb-4"></i>
+                            <h3 class="text-muted mb-3">No Listings Found</h3>
+                            <p class="text-muted mb-4">Be the first to add a property listing!</p>
+                            <a href="/listings/new" class="btn btn-primary btn-lg rounded-pill px-5">
+                                <i class="fas fa-plus me-2"></i>Add New Listing
+                            </a>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+
+            <!-- Include Footer -->
+            <%- include('../components/footer') %>
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
