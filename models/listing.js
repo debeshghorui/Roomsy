@@ -33,6 +33,17 @@ const listingSchema = new Schema({
         type: String,
         required: true,
     },
+    geoLocation: {
+        type: {
+            type: String,     // Don't do `{ type: String }`, it won't work
+            enum: ["Point"],  // 'Point' is the only allowed type
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     reviews: [
         { 
             type: Schema.Types.ObjectId, 

@@ -3,6 +3,9 @@ const Listing = require("../../models/listing");
 const Review = require("../../models/review");
 const ExpressError = require("../utils/ExpressError");
 
+// Mapbox Geocoding setup
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocodingClient = mbxGeocoding({ accessToken: process.env.MAP_BOX_TOKEN });
 class ListingController {
     // Get all listings
     static async getAllListings(req, res) {
@@ -78,11 +81,22 @@ class ListingController {
             throw new ExpressError("Price must be a positive number", 400);
         }
 
+        let geoLocation = await geocodingClient.forwardGeocode({
+            query: req.body.location,
+            limit: 1
+        }).send();
+
+        if (!geoLocation.body.features.length) {
+            throw new ExpressError("Invalid location provided", 400);
+        }
+
+        // Create and save the new listing
         const newListing = new Listing({
             title: title.trim(),
             description: description.trim(),
             location: location.trim(),
             country: country.trim(),
+            geoLocation: geoLocation.body.features[0].geometry,
             price: parseFloat(price),
             image: {
                 filename: filename || "listing[image]",
