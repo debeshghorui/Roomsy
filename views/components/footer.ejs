@@ -1,30 +1,69 @@
+<!--
+    FOOTER COMPONENT
+    ================
+    
+    Purpose: Site-wide footer with company information, navigation, and contact details
+    Features:
+    - Responsive 4-column layout (collapses on mobile)
+    - Brand information with social media links
+    - Quick navigation links
+    - Support and legal links
+    - Contact information
+    - Copyright and branding message
+    
+    Layout Sections:
+    1. Brand & Social Media (col-lg-4)
+    2. Quick Links (col-lg-2)
+    3. Support Links (col-lg-3)
+    4. Contact Information (col-lg-3)
+    
+    Styling:
+    - Dark background with light text for contrast
+    - Primary color accents for headings and icons
+    - Consistent spacing and typography
+    - External links open in new tabs for security
+-->
 <footer class="bg-dark text-white py-5 mt-auto">
     <div class="container">
         <div class="row">
+            
+            <!-- BRAND AND SOCIAL MEDIA SECTION -->
             <div class="col-lg-4 col-md-6 mb-4">
+                <!-- Brand Logo and Name -->
                 <h5 class="text-primary mb-3">
                     <i class="fas fa-compass me-2"></i>WanderLust
                 </h5>
+                
+                <!-- Company Description -->
                 <p class="text-light opacity-75 mb-3">
                     Discover extraordinary places and create unforgettable memories with our curated collection of
                     unique destinations.
                 </p>
+                
+                <!-- Social Media Links -->
                 <div class="d-flex gap-2">
+                    <!-- Facebook -->
                     <a href="https://facebook.com/wanderlust"
                         class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                         style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-facebook-f"></i>
                     </a>
+                    
+                    <!-- Twitter -->
                     <a href="https://twitter.com/wanderlust"
                         class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                         style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-twitter"></i>
                     </a>
+                    
+                    <!-- Instagram -->
                     <a href="https://instagram.com/wanderlust"
                         class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                         style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-instagram"></i>
                     </a>
+                    
+                    <!-- LinkedIn -->
                     <a href="https://linkedin.com/company/wanderlust"
                         class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
                         style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
@@ -33,26 +72,34 @@
                 </div>
             </div>
 
+            <!-- QUICK NAVIGATION LINKS -->
             <div class="col-lg-2 col-md-6 mb-4">
                 <h5 class="text-primary mb-3">Quick Links</h5>
                 <ul class="list-unstyled">
+                    <!-- Home Page -->
                     <li class="mb-2">
                         <a href="/" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-home me-2"></i>Home
                         </a>
                     </li>
+                    
+                    <!-- All Listings -->
                     <li class="mb-2">
                         <a href="/listings"
                             class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-list me-2"></i>Listings
                         </a>
                     </li>
+                    
+                    <!-- Add New Listing -->
                     <li class="mb-2">
                         <a href="/listings/new"
                             class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-plus me-2"></i>Add Listing
                         </a>
                     </li>
+                    
+                    <!-- About Page (placeholder link) -->
                     <li class="mb-2">
                         <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-info-circle me-2"></i>About
@@ -61,24 +108,32 @@
                 </ul>
             </div>
 
+            <!-- SUPPORT AND LEGAL LINKS -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 class="text-primary mb-3">Support</h5>
                 <ul class="list-unstyled">
+                    <!-- Help Center -->
                     <li class="mb-2">
                         <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-question-circle me-2"></i>Help Center
                         </a>
                     </li>
+                    
+                    <!-- Safety Information -->
                     <li class="mb-2">
                         <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-shield-alt me-2"></i>Safety
                         </a>
                     </li>
+                    
+                    <!-- Terms of Service -->
                     <li class="mb-2">
                         <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-file-contract me-2"></i>Terms of Service
                         </a>
                     </li>
+                    
+                    <!-- Privacy Policy -->
                     <li class="mb-2">
                         <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
                             <i class="fas fa-user-shield me-2"></i>Privacy Policy
@@ -87,17 +142,23 @@
                 </ul>
             </div>
 
+            <!-- CONTACT INFORMATION -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 class="text-primary mb-3">Contact</h5>
                 <div class="text-light opacity-75">
+                    <!-- Email -->
                     <p class="mb-2 d-flex align-items-center">
                         <i class="fas fa-envelope me-2 text-primary"></i>
                         hello@wanderlust.com
                     </p>
+                    
+                    <!-- Phone -->
                     <p class="mb-2 d-flex align-items-center">
                         <i class="fas fa-phone me-2 text-primary"></i>
                         +1 (555) 123-4567
                     </p>
+                    
+                    <!-- Address -->
                     <p class="mb-2 d-flex align-items-center">
                         <i class="fas fa-map-marker-alt me-2 text-primary"></i>
                         123 Adventure St, Travel City
@@ -106,14 +167,19 @@
             </div>
         </div>
 
+        <!-- DIVIDER LINE -->
         <hr class="my-4 opacity-25">
 
+        <!-- BOTTOM COPYRIGHT SECTION -->
         <div class="row align-items-center">
+            <!-- Copyright Notice -->
             <div class="col-md-6">
                 <p class="mb-0 text-light opacity-75">
                     &copy; 2024 WanderLust. All rights reserved.
                 </p>
             </div>
+            
+            <!-- Branding Message -->
             <div class="col-md-6 text-md-end">
                 <p class="mb-0 text-light opacity-75">
                     Made with <i class="fas fa-heart text-danger"></i> for travelers

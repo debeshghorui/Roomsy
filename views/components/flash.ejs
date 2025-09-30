@@ -1,21 +1,60 @@
-<% if (success && success.length> 0) { %>
+<!--
+    FLASH MESSAGES COMPONENT
+    ========================
+    
+    Purpose: Display temporary notification messages to users
+    Usage: Automatically included in the boilerplate layout
+    
+    Message Types:
+    - Success: Green alerts for successful operations (login, create, update, etc.)
+    - Error/Warning: Yellow alerts for errors or warnings
+    
+    Features:
+    - Auto-dismissible with close button
+    - Bootstrap alert styling with custom icons
+    - Fade animation effects
+    - Responsive container layout
+    
+    Server-Side Integration:
+    - 'success' and 'error' variables are passed from Express.js flash middleware
+    - Messages are stored in session and cleared after display
+    
+    Styling:
+    - Rounded corners and subtle shadows for modern appearance
+    - Font Awesome icons for visual feedback
+    - Consistent spacing and typography
+-->
+
+<!-- SUCCESS MESSAGES -->
+<!-- Display if success message exists and has content -->
+<% if (success && success.length > 0) { %>
     <div class="container mt-3">
+        <!-- Bootstrap Success Alert with Dismissible Functionality -->
         <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+            <!-- Success Icon -->
             <i class="fas fa-check-circle me-2"></i>
             <strong>Success!</strong>
+            <!-- Dynamic Success Message Content -->
             <%= success %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <!-- Close Button for Manual Dismissal -->
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 <% } %>
 
-<% if (error && error.length> 0) { %>
+<!-- ERROR/WARNING MESSAGES -->
+<!-- Display if error message exists and has content -->
+<% if (error && error.length > 0) { %>
     <div class="container mt-3">
+        <!-- Bootstrap Warning Alert with Dismissible Functionality -->
         <div class="alert alert-warning alert-dismissible fade show rounded-3 shadow-sm" role="alert">
+            <!-- Warning Icon -->
             <i class="fas fa-exclamation-triangle me-2"></i>
             <strong>Warning!</strong>
+            <!-- Dynamic Error Message Content -->
             <%= error %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <!-- Close Button for Manual Dismissal -->
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
 <% } %>
