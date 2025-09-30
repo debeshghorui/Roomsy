@@ -1,122 +1,222 @@
 <% layout('layouts/boilerplate') %>
 
-    <div class="container py-5">
+<style>
+.form-page {
+    background: var(--airbnb-light-gray);
+    min-height: 80vh;
+}
+
+.form-card {
+    background: white;
+    border: 1px solid var(--airbnb-border);
+    border-radius: 12px;
+    padding: 40px;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--airbnb-dark);
+    margin-bottom: 8px;
+}
+
+.form-subtitle {
+    color: var(--airbnb-gray);
+    font-size: 1rem;
+    margin-bottom: 32px;
+}
+
+.form-control, .form-select {
+    padding: 12px;
+    border: 1px solid var(--airbnb-border);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--airbnb-dark);
+    box-shadow: none;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--airbnb-dark);
+    margin-bottom: 8px;
+}
+
+.btn-submit {
+    background: var(--airbnb-dark);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn-submit:hover {
+    background: #000;
+    color: white;
+}
+
+.btn-cancel {
+    background: white;
+    color: var(--airbnb-dark);
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: 1px solid var(--airbnb-dark);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: var(--airbnb-light-gray);
+}
+</style>
+
+<div class="form-page py-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-header bg-primary text-white rounded-top-4 text-center py-4">
-                        <h1 class="mb-0 fw-bold">
-                            <i class="fas fa-plus-circle me-3"></i>Create New Listing
-                        </h1>
-                        <p class="mb-0 mt-2 opacity-75">Share your amazing property with travelers</p>
+                <!-- Back Button -->
+                <div class="mb-3">
+                    <a href="/listings" class="text-decoration-none text-dark">
+                        <i class="fas fa-arrow-left me-2"></i>Back to listings
+                    </a>
+                </div>
+
+                <div class="form-card">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <h1 class="form-title">List your place</h1>
+                        <p class="form-subtitle">Share your space with travelers from around the world</p>
                     </div>
 
-                    <div class="card-body p-5">
-                        <!-- Error Alert -->
-                        <% if (typeof error !== 'undefined' && error && error.trim && error.trim().length > 0) { %>
-                            <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <%= error %>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <!-- Error Alert -->
+                    <% if (typeof error !== 'undefined' && error && error.trim && error.trim().length > 0) { %>
+                        <div class="alert alert-danger rounded-3 d-flex align-items-center mb-4" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <div><%= error %></div>
+                        </div>
+                    <% } %>
+
+                    <!-- Form -->
+                    <form action="/listings" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+                        <!-- Property Title -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label">Property Title</label>
+                            <input type="text" 
+                                   class="form-control"
+                                   id="title" 
+                                   name="title"
+                                   value="<%= typeof formData !== 'undefined' ? formData.title || '' : '' %>"
+                                   required 
+                                   maxlength="100"
+                                   placeholder="Beautiful Villa with Ocean View">
+                            <div class="form-text" style="font-size: 0.875rem; color: var(--airbnb-gray);">
+                                Make it catchy and descriptive
                             </div>
-                        <% } %>
+                            <div class="invalid-feedback">
+                                Please provide a title for your listing.
+                            </div>
+                        </div>
 
-                        <form action="/listings" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
-                            <div class="row">
-                                <div class="col-12 mb-4">
-                                    <label for="title" class="form-label fw-bold">
-                                        <i class="fas fa-home text-primary me-2"></i>Property Title *
-                                    </label>
-                                    <input type="text" class="form-control form-control-lg rounded-3"
-                                        id="title" name="title"
-                                        value="<%= typeof formData !== 'undefined' ? formData.title || '' : '' %>"
-                                        required maxlength="100"
-                                        placeholder="Beautiful Villa with Ocean View">
-                                    <div class="invalid-feedback">
-                                        Please provide a valid title.
-                                    </div>
-                                </div>
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" 
+                                      id="description"
+                                      name="description" 
+                                      rows="5" 
+                                      required 
+                                      maxlength="500"
+                                      placeholder="Describe your property, amenities, nearby attractions, and what makes it special..."><%= typeof formData !== 'undefined' ? formData.description || '' : '' %></textarea>
+                            <div class="form-text" style="font-size: 0.875rem; color: var(--airbnb-gray);">
+                                Maximum 500 characters
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a description.
+                            </div>
+                        </div>
 
-                                <div class="col-12 mb-4">
-                                    <label for="description" class="form-label fw-bold">
-                                        <i class="fas fa-align-left text-info me-2"></i>Description *
-                                    </label>
-                                    <textarea class="form-control rounded-3" id="description"
-                                        name="description" rows="5" required maxlength="500"
-                                        placeholder="Describe your property, amenities, and what makes it special..."><%= typeof formData !== 'undefined' ? formData.description || '' : '' %></textarea>
-                                    <div class="form-text">Maximum 500 characters</div>
-                                    <div class="invalid-feedback">
-                                        Please provide a description.
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 mb-4">
-                                    <label for="image" class="form-label fw-bold">
-                                        <i class="fas fa-image text-secondary me-2"></i>Upload Image
-                                    </label>
-                                    <input type="file" class="form-control form-control-lg rounded-3" id="image" name="listing[image]" accept="image/*">
-                                    <div class="form-text">
-                                        <i class="fas fa-info-circle me-1"></i>
-                                        Leave empty to use default image
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6 mb-4">
-                                    <label for="location" class="form-label fw-bold">
-                                        <i class="fas fa-map-marker-alt text-danger me-2"></i>Location *
-                                    </label>
-                                    <input type="text" class="form-control form-control-lg rounded-3"
-                                        id="location" name="location"
-                                        value="<%= typeof formData !== 'undefined' ? formData.location || '' : '' %>"
-                                        required placeholder="Mumbai, Goa, Delhi...">
-                                    <div class="invalid-feedback">
-                                        Please provide a location.
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-4">
-                                    <label for="country" class="form-label fw-bold">
-                                        <i class="fas fa-globe text-success me-2"></i>Country *
-                                    </label>
-                                    <input type="text" class="form-control form-control-lg rounded-3"
-                                        id="country" name="country"
-                                        value="<%= typeof formData !== 'undefined' ? formData.country || '' : '' %>"
-                                        required placeholder="India">
-                                    <div class="invalid-feedback">
-                                        Please provide a country.
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-4">
-                                    <label for="price" class="form-label fw-bold">
-                                        <i class="fas fa-rupee-sign text-warning me-2"></i>Price per
-                                        Night (₹) *
-                                    </label>
-                                    <input type="number" class="form-control form-control-lg rounded-3"
-                                        id="price" name="price"
-                                        value="<%= typeof formData !== 'undefined' ? formData.price || '' : '' %>"
-                                        required min="1" step="0.01" placeholder="5000">
-                                    <div class="invalid-feedback">
-                                        Please provide a valid price.
-                                    </div>
+                        <!-- Location and Country -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" 
+                                       class="form-control"
+                                       id="location" 
+                                       name="location"
+                                       value="<%= typeof formData !== 'undefined' ? formData.location || '' : '' %>"
+                                       required 
+                                       placeholder="Mumbai, Goa, Delhi...">
+                                <div class="invalid-feedback">
+                                    Please provide a location.
                                 </div>
                             </div>
 
-                            <div class="d-grid gap-3 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3">
-                                    <i class="fas fa-plus-circle me-2"></i>Create Listing
-                                </button>
-                                <a href="/listings"
-                                    class="btn btn-outline-secondary btn-lg rounded-pill py-3">
-                                    <i class="fas fa-times me-2"></i>Cancel
-                                </a>
+                            <div class="col-md-6 mb-4">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" 
+                                       class="form-control"
+                                       id="country" 
+                                       name="country"
+                                       value="<%= typeof formData !== 'undefined' ? formData.country || '' : '' %>"
+                                       required 
+                                       placeholder="India">
+                                <div class="invalid-feedback">
+                                    Please provide a country.
+                                </div>
                             </div>
-                        </form>
-                        
-                    </div>
+                        </div>
+
+                        <!-- Price and Image -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="price" class="form-label">Price per Night (₹)</label>
+                                <input type="number" 
+                                       class="form-control"
+                                       id="price" 
+                                       name="price"
+                                       value="<%= typeof formData !== 'undefined' ? formData.price || '' : '' %>"
+                                       required 
+                                       min="1" 
+                                       step="0.01" 
+                                       placeholder="5000">
+                                <div class="invalid-feedback">
+                                    Please provide a valid price.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label for="image" class="form-label">Upload Image</label>
+                                <input type="file" 
+                                       class="form-control" 
+                                       id="image" 
+                                       name="listing[image]" 
+                                       accept="image/*">
+                                <div class="form-text" style="font-size: 0.875rem; color: var(--airbnb-gray);">
+                                    Leave empty to use a default image
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-3 mt-5">
+                            <button type="submit" class="btn-submit flex-grow-1">
+                                <i class="fas fa-plus-circle me-2"></i>Create Listing
+                            </button>
+                            <a href="/listings" class="btn-cancel">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="/javascript/FormValidatation.js"></script>
+<script src="/javascript/FormValidatation.js"></script>

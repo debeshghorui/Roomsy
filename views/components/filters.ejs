@@ -1,0 +1,208 @@
+<!--
+    AIRBNB-STYLE CATEGORY FILTERS
+    ==============================
+    
+    Features:
+    - Horizontal scrolling category filters
+    - Icons with labels
+    - Active state highlighting
+    - Filters modal button
+    - Display total toggle
+-->
+
+<div class="category-filters">
+    <div class="container-fluid">
+        <div class="filters-wrapper">
+            <div class="categories-container">
+                <!-- Scroll Left Button -->
+                <button class="scroll-btn scroll-left" id="scrollLeft" style="display: none;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <!-- Categories Container -->
+                <div class="categories-scroll" id="categoriesScroll">
+                <a href="/listings" class="category-item active">
+                    <i class="fas fa-tractor"></i>
+                    <span>Farms</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-bed"></i>
+                    <span>Rooms</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-mountain"></i>
+                    <span>Amazing views</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-city"></i>
+                    <span>Iconic cities</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-water"></i>
+                    <span>Surfing</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-swimming-pool"></i>
+                    <span>Amazing pools</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-umbrella-beach"></i>
+                    <span>Beach</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-home"></i>
+                    <span>Cabins</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-star"></i>
+                    <span>OMG!</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-tree"></i>
+                    <span>Lakefront</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-fire"></i>
+                    <span>Trending</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-wine-glass"></i>
+                    <span>Vineyards</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-igloo"></i>
+                    <span>Arctic</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-island-tropical"></i>
+                    <span>Islands</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-ship"></i>
+                    <span>Boats</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-caravan"></i>
+                    <span>Campers</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-chess-rook"></i>
+                    <span>Castles</span>
+                </a>
+                
+                <a href="/listings" class="category-item">
+                    <i class="fas fa-skiing"></i>
+                    <span>Skiing</span>
+                </a>
+            </div>
+
+                <!-- Scroll Right Button -->
+                <button class="scroll-btn scroll-right" id="scrollRight">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Filters Button and Toggle -->
+            <div class="filters-actions">
+                <button class="filters-btn" onclick="openFiltersModal()">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Filters</span>
+                </button>
+                
+                <div class="toggle-divider"></div>
+                
+                <div class="price-toggle">
+                    <span class="toggle-label">Display total before taxes</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="priceToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Category filters scroll functionality
+(function() {
+    const categoriesScroll = document.getElementById('categoriesScroll');
+    const scrollLeftBtn = document.getElementById('scrollLeft');
+    const scrollRightBtn = document.getElementById('scrollRight');
+    
+    if (!categoriesScroll || !scrollLeftBtn || !scrollRightBtn) return;
+    
+    // Check scroll position and update button visibility
+    function updateScrollButtons() {
+        const maxScroll = categoriesScroll.scrollWidth - categoriesScroll.clientWidth;
+        
+        if (categoriesScroll.scrollLeft <= 0) {
+            scrollLeftBtn.style.display = 'none';
+        } else {
+            scrollLeftBtn.style.display = 'flex';
+        }
+        
+        if (categoriesScroll.scrollLeft >= maxScroll - 1) {
+            scrollRightBtn.style.display = 'none';
+        } else {
+            scrollRightBtn.style.display = 'flex';
+        }
+    }
+    
+    // Scroll left
+    scrollLeftBtn.addEventListener('click', function() {
+        categoriesScroll.scrollBy({
+            left: -400,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Scroll right
+    scrollRightBtn.addEventListener('click', function() {
+        categoriesScroll.scrollBy({
+            left: 400,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Update buttons on scroll
+    categoriesScroll.addEventListener('scroll', updateScrollButtons);
+    
+    // Initial check
+    updateScrollButtons();
+    
+    // Check on window resize
+    window.addEventListener('resize', updateScrollButtons);
+})();
+
+// Filters modal (placeholder)
+function openFiltersModal() {
+    alert('Filters modal would open here. You can implement a modal with price range, amenities, etc.');
+}
+
+// Price toggle
+document.getElementById('priceToggle')?.addEventListener('change', function() {
+    if (this.checked) {
+        console.log('Display total price enabled');
+        // Implement price display logic
+    } else {
+        console.log('Display total price disabled');
+    }
+});
+</script>

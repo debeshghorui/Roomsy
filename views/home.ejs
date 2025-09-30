@@ -1,275 +1,388 @@
-<!--
-    HOME PAGE TEMPLATE
-    ==================
-    
-    Purpose: Landing page for the WanderLust travel accommodation platform
-    Layout: Uses the boilerplate layout template for consistent structure
-    
-    Page Sections:
-    1. Hero Section - Main banner with call-to-action buttons and quick stats
-    2. Features Section - Why choose WanderLust (3 key features)
-    3. How It Works Section - 3-step process explanation
-    4. Call to Action Section - Final conversion section with trust indicators
-    
-    Design Features:
-    - Full-height hero with gradient background
-    - Floating decorative icons for visual interest
-    - Card-based feature sections with hover effects
-    - Responsive design with mobile-first approach
-    - Trust indicators and social proof elements
-    
-    Target Audience: New visitors looking for travel accommodations
-    Conversion Goals: Browse listings, sign up, list property
--->
 <% layout('layouts/boilerplate') %>
 
-<!-- 
-    HERO SECTION
-    ============
-    Full-screen landing section with main value proposition
-    Features: Gradient background, floating icons, CTA buttons, quick stats
--->
-<section class="bg-primary bg-gradient min-vh-100 d-flex align-items-center position-relative overflow-hidden">
-    <!-- DECORATIVE BACKGROUND ICONS -->
-    <!-- Positioned absolutely for visual interest without interfering with content -->
-    <div class="position-absolute top-0 start-0 p-5 opacity-25">
-        <i class="fas fa-map-marker-alt fs-1 text-white"></i>
+<!-- Hero Section -->
+<section class="airbnb-hero">
+    <div class="airbnb-hero-content">
+        <h1>Not sure where to go? Perfect.</h1>
+        <p>Find incredible places to stay around the world</p>
+        <div class="hero-search-bar">
+            <input type="text" placeholder="Search destinations" id="heroSearchInput">
+            <button onclick="searchFromHero()">
+                <i class="fas fa-search me-2"></i>Explore
+            </button>
     </div>
-    <div class="position-absolute top-50 end-0 translate-middle-y p-5 opacity-25">
-        <i class="fas fa-compass fs-1 text-white"></i>
     </div>
-    <div class="position-absolute bottom-0 start-0 p-5 opacity-25">
-        <i class="fas fa-globe-americas fs-1 text-white"></i>
+</section>
+
+<!-- Popular Destinations Section -->
+<section class="listings-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Popular homes around the world</h2>
+            <p>Explore some of the most sought-after destinations</p>
     </div>
 
-    <!-- MAIN HERO CONTENT -->
-    <div class="container text-center text-white">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <!-- Brand Title with Icon -->
-                <h1 class="display-1 fw-bold mb-4">
-                    <i class="fas fa-compass text-warning me-3"></i>
-                    WanderLust
-                </h1>
-                
-                <!-- Value Proposition Subtitle -->
-                <p class="fs-3 mb-5 opacity-90">
-                    Discover extraordinary places and create unforgettable memories around the world
-                </p>
-                
-                <!-- PRIMARY CALL-TO-ACTION BUTTONS -->
-                <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mb-5">
-                    <!-- Primary CTA: Browse Listings -->
-                    <a href="/listings" class="btn btn-light btn-lg px-5 py-3 rounded-pill shadow-lg">
-                        <i class="fas fa-search me-2"></i>Explore Listings
-                    </a>
-                    
-                    <!-- Secondary CTA: Add Property -->
-                    <a href="/listings/new" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
-                        <i class="fas fa-plus me-2"></i>Add Your Place
-                    </a>
-                </div>
+        <div class="position-relative">
+            <div class="horizontal-scroll" id="popularScroll">
+                <!-- Sample Cards - In production, these would be populated from database -->
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" alt="Paris">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Paris, France</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.98</span>
+                            </div>
+                        </div>
+                        <div class="card-title">City views • Hosted by Marie</div>
+                        <div class="card-price">
+                            <strong>₹15,000</strong> per night
+                        </div>
+                    </div>
+                </a>
 
-                <!-- QUICK STATS / SOCIAL PROOF -->
-                <!-- Build trust with impressive numbers -->
-                <div class="row mt-5 pt-5">
-                    <div class="col-md-4">
-                        <h3 class="fw-bold">2,500+</h3>
-                        <p class="opacity-75">Properties</p>
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400" alt="Tokyo">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="fw-bold">150+</h3>
-                        <p class="opacity-75">Countries</p>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Tokyo, Japan</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.95</span>
+                            </div>
+                        </div>
+                        <div class="card-title">Modern apartment • Hosted by Yuki</div>
+                        <div class="card-price">
+                            <strong>₹12,500</strong> per night
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h3 class="fw-bold">10,000+</h3>
-                        <p class="opacity-75">Happy Travelers</p>
+                </a>
+
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=400" alt="Bali">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Bali, Indonesia</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.92</span>
+                            </div>
+                        </div>
+                        <div class="card-title">Beach villa • Hosted by Ketut</div>
+                        <div class="card-price">
+                            <strong>₹8,000</strong> per night
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400" alt="London">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>London, UK</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.89</span>
+                            </div>
+                        </div>
+                        <div class="card-title">Cozy flat • Hosted by Oliver</div>
+                        <div class="card-price">
+                            <strong>₹18,000</strong> per night
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=400" alt="New York">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>New York, USA</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.97</span>
+                            </div>
+                        </div>
+                        <div class="card-title">Manhattan loft • Hosted by Sarah</div>
+                        <div class="card-price">
+                            <strong>₹22,000</strong> per night
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400" alt="Dubai">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Dubai, UAE</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.93</span>
+                            </div>
+                        </div>
+                        <div class="card-title">Luxury penthouse • Hosted by Ahmed</div>
+                        <div class="card-price">
+                            <strong>₹30,000</strong> per night
                     </div>
                 </div>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 
-    FEATURES SECTION
-    ================
-    Highlight key value propositions with icon-based cards
-    Purpose: Build trust and explain why users should choose WanderLust
--->
-<section class="py-5 bg-light">
-    <div class="container py-5">
-        <!-- Section Header -->
-        <div class="row text-center mb-5">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="display-4 fw-bold text-dark mb-3">
-                    <i class="fas fa-star text-warning me-3"></i>
-                    Why Choose WanderLust?
-                </h2>
-                <p class="fs-5 text-muted">Discover the perfect blend of adventure and comfort with our premium features</p>
-            </div>
+<!-- Explore India Section -->
+<section class="listings-section bg-light">
+    <div class="container">
+        <div class="section-header">
+            <h2>Discover India</h2>
+            <p>Amazing places to stay across incredible India</p>
         </div>
 
-        <!-- Features Grid -->
-        <div class="row g-4">
-            <!-- Feature 1: Curated Locations -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4 hover-lift">
-                    <div class="card-body">
-                        <div class="bg-primary bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                            style="width: 80px; height: 80px;">
-                            <i class="fas fa-search-location fs-2 text-white"></i>
-                        </div>
-                        <h3 class="card-title fw-bold mb-3">Curated Locations</h3>
-                        <p class="card-text text-muted">
-                            Hand-picked destinations that offer unique experiences and authentic local culture. 
-                            Every listing is verified for quality and authenticity.
-                        </p>
+        <div class="position-relative">
+            <div class="horizontal-scroll" id="indiaScroll">
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400" alt="Goa">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
-                </div>
-            </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Goa, India</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.91</span>
+                            </div>
+                        </div>
+                        <div class="card-title">Beach cottage • Sea views</div>
+                        <div class="card-price">
+                            <strong>₹5,500</strong> per night
+                        </div>
+                    </div>
+                </a>
 
-            <!-- Feature 2: Trusted & Secure -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4 hover-lift">
-                    <div class="card-body">
-                        <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                            style="width: 80px; height: 80px;">
-                            <i class="fas fa-shield-alt fs-2 text-white"></i>
-                        </div>
-                        <h3 class="card-title fw-bold mb-3">Trusted & Secure</h3>
-                        <p class="card-text text-muted">
-                            Your safety is our priority. All hosts are verified and every booking is protected 
-                            by our comprehensive security measures.
-                        </p>
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400" alt="Jaipur">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Jaipur, India</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.88</span>
                 </div>
             </div>
+                        <div class="card-title">Heritage haveli • Royal experience</div>
+                        <div class="card-price">
+                            <strong>₹4,800</strong> per night
+                        </div>
+                    </div>
+                </a>
 
-            <!-- Feature 3: 24/7 Support -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-4 hover-lift">
-                    <div class="card-body">
-                        <div class="bg-info bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
-                            style="width: 80px; height: 80px;">
-                            <i class="fas fa-headset fs-2 text-white"></i>
-                        </div>
-                        <h3 class="card-title fw-bold mb-3">24/7 Support</h3>
-                        <p class="card-text text-muted">
-                            Our dedicated support team is available around the clock to ensure your travel 
-                            experience is seamless from start to finish.
-                        </p>
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?w=400" alt="Kerala">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Kerala, India</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.94</span>
                 </div>
             </div>
+                        <div class="card-title">Houseboat • Backwater views</div>
+                        <div class="card-price">
+                            <strong>₹6,200</strong> per night
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" alt="Manali">
+                        <span class="guest-favorite">Guest favourite</span>
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Manali, India</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.96</span>
+                </div>
+            </div>
+                        <div class="card-title">Mountain cabin • Himalayan views</div>
+                        <div class="card-price">
+                            <strong>₹3,500</strong> per night
         </div>
     </div>
-</section>
+                </a>
 
-<!-- How It Works Section -->
-<section class="py-5 bg-white">
-    <div class="container py-5">
-        <!-- Section Header -->
-        <div class="row text-center mb-5">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="display-4 fw-bold text-dark mb-3">
-                    <i class="fas fa-route text-primary me-3"></i>
-                    How It Works
-                </h2>
-                <p class="fs-5 text-muted">Start your journey in just three simple steps</p>
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1524850011238-e3d235c7d4c9?w=400" alt="Udaipur">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Udaipur, India</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.90</span>
             </div>
         </div>
+                        <div class="card-title">Lake palace • Historic charm</div>
+                        <div class="card-price">
+                            <strong>₹7,800</strong> per night
+                        </div>
+                    </div>
+                </a>
 
-        <!-- Steps -->
-        <div class="row g-4">
-            <!-- Step 1 -->
-            <div class="col-lg-4 text-center">
-                <div class="position-relative mb-4">
-                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center"
-                        style="width: 100px; height: 100px;">
-                        <span class="display-4 fw-bold">1</span>
+                <a href="/listings" class="airbnb-card">
+                    <div class="airbnb-card-image">
+                        <img src="https://images.unsplash.com/photo-1524338198850-8a2ff63aaceb?w=400" alt="Mumbai">
+                        <button class="wishlist-btn" onclick="event.preventDefault();">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="airbnb-card-content">
+                        <div class="card-location">
+                            <h3>Mumbai, India</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.85</span>
                     </div>
                 </div>
-                <h3 class="fw-bold mb-3">Discover</h3>
-                <p class="text-muted fs-5">
-                    Browse through our curated collection of unique properties and find your perfect destination.
-                </p>
+                        <div class="card-title">Modern apartment • City center</div>
+                        <div class="card-price">
+                            <strong>₹4,200</strong> per night
             </div>
-
-            <!-- Step 2 -->
-            <div class="col-lg-4 text-center">
-                <div class="position-relative mb-4">
-                    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center"
-                        style="width: 100px; height: 100px;">
-                        <span class="display-4 fw-bold">2</span>
                     </div>
-                </div>
-                <h3 class="fw-bold mb-3">Book</h3>
-                <p class="text-muted fs-5">
-                    Secure your reservation with our easy booking process and flexible cancellation policies.
-                </p>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="col-lg-4 text-center">
-                <div class="position-relative mb-4">
-                    <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center"
-                        style="width: 100px; height: 100px;">
-                        <span class="display-4 fw-bold">3</span>
-                    </div>
-                </div>
-                <h3 class="fw-bold mb-3">Experience</h3>
-                <p class="text-muted fs-5">
-                    Enjoy your stay and create unforgettable memories at extraordinary places around the world.
-                </p>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Call to Action Section -->
-<section class="py-5 bg-dark text-white text-center">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="display-5 fw-bold mb-3">
-                    <i class="fas fa-paper-plane text-primary me-3"></i>
-                    Ready for Your Next Adventure?
-                </h2>
-                <p class="fs-5 mb-4 opacity-75">
-                    Join thousands of travelers who have discovered their perfect getaway with WanderLust
-                </p>
-                
-                <!-- CTA Buttons -->
-                <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
-                    <a href="/listings" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow">
-                        <i class="fas fa-search me-2"></i>Start Exploring Now
-                    </a>
-                    <a href="/listings/new" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill border-2">
-                        <i class="fas fa-home me-2"></i>List Your Property
+<section class="listings-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="display-5 fw-bold mb-3">Try hosting</h2>
+                <p class="lead mb-4">Earn extra income and unlock new opportunities by sharing your space.</p>
+                <a href="/listings/new" class="btn-airbnb btn-lg">
+                    <i class="fas fa-plus me-2"></i>Get started
                     </a>
                 </div>
-
-                <!-- Trust Indicators -->
-                <div class="row mt-5 pt-4">
-                    <div class="col-md-3 col-6">
-                        <h4 class="fw-bold text-primary">2,500+</h4>
-                        <p class="small opacity-75 mb-0">Properties</p>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <h4 class="fw-bold text-primary">150+</h4>
-                        <p class="small opacity-75 mb-0">Countries</p>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <h4 class="fw-bold text-primary">10,000+</h4>
-                        <p class="small opacity-75 mb-0">Happy Travelers</p>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <h4 class="fw-bold text-primary">98%</h4>
-                        <p class="small opacity-75 mb-0">Satisfaction</p>
-                    </div>
-                </div>
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" 
+                     alt="Hosting" 
+                     class="img-fluid rounded-3 shadow-lg">
             </div>
         </div>
     </div>
 </section>
+
+<!-- Inspiration Section -->
+<section class="listings-section bg-light">
+    <div class="container text-center">
+        <div class="section-header">
+            <h2>Inspiration for future getaways</h2>
+            <p>Browse all listings and find your perfect stay</p>
+        </div>
+        <a href="/listings" class="btn-airbnb btn-lg">
+            <i class="fas fa-compass me-2"></i>Explore all listings
+        </a>
+    </div>
+</section>
+
+<script>
+// Search functionality
+function searchFromHero() {
+    const searchInput = document.getElementById('heroSearchInput');
+    const query = searchInput.value.trim();
+    if (query) {
+        window.location.href = `/listings?search=${encodeURIComponent(query)}`;
+    } else {
+        window.location.href = '/listings';
+    }
+}
+
+// Allow search on Enter key
+document.getElementById('heroSearchInput')?.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        searchFromHero();
+    }
+});
+
+// Horizontal scroll functionality
+function setupHorizontalScroll(scrollId, prevBtnId, nextBtnId) {
+    const scrollContainer = document.getElementById(scrollId);
+    if (!scrollContainer) return;
+
+    const scrollAmount = 320; // card width + gap
+
+    // Auto-scroll on mouse wheel
+    scrollContainer.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+            scrollContainer.scrollLeft += e.deltaY;
+        }
+    });
+}
+
+// Initialize scroll containers
+setupHorizontalScroll('popularScroll');
+setupHorizontalScroll('indiaScroll');
+</script>

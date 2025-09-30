@@ -1,146 +1,138 @@
 <% layout('layouts/boilerplate') %>
+
 <div class="container py-5">
-    <!-- Enhanced Header Section -->
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-primary mb-3">
-            <i class="fas fa-building me-3"></i>
-            Property Listings
-        </h1>
-        <p class="fs-5 text-muted">Discover amazing properties around the world</p>
-        <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
-            <span class="badge bg-primary fs-6 px-3 py-2">
-                <i class="fas fa-home me-2"></i>
-                <%= listings.length %> Properties
-            </span>
-            <span class="badge bg-success fs-6 px-3 py-2">
-                <i class="fas fa-star me-2"></i>Top Rated
-            </span>
-        </div>
+    <!-- Page Header -->
+    <div class="section-header mb-4">
+        <h2>All Listings</h2>
+        <p class="text-airbnb-gray"><%= listings.length %> stays available</p>
     </div>
 
-    <!-- Enhanced Listings Grid -->
-    <div class="row g-4">
-        <% listings.forEach((listing, index)=> { %>
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden position-relative">
-                    <!-- Image with overlay -->
-                    <div class="position-relative overflow-hidden" style="height: 250px;">
+    <!-- Listings Grid -->
+    <% if (listings.length > 0) { %>
+        <div class="airbnb-grid">
+            <% listings.forEach((listing) => { %>
+                <a href="/listings/<%= listing._id %>" class="airbnb-card">
+                    <div class="airbnb-card-image">
                         <% if (listing.image && listing.image.url) { %>
-                            <img src="<%= listing.image.url %>"
-                                class="card-img-top w-100 h-100 object-fit-cover"
-                                alt="<%= listing.title %>">
+                            <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
                         <% } else { %>
-                            <img src="https://via.placeholder.com/400x250.png?text=No+Image"
-                                class="card-img-top w-100 h-100 object-fit-cover" alt="No Image">
+                            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400" alt="<%= listing.title %>">
                         <% } %>
-
-                        <!-- Price Badge -->
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-success fs-6 px-3 py-2 shadow">
-                                ₹<%= listing.price.toLocaleString("en-IN") %>
-                            </span>
-                        </div>
-
-                        <!-- Rating Badge -->
-                        <% if (listing.reviews && listing.reviews.length> 0) { %>
+                        
+                        <!-- Guest Favorite Badge (if highly rated) -->
+                        <% if (listing.reviews && listing.reviews.length > 3) { %>
                             <% 
-                                const totalRating=listing.reviews.reduce((sum, review)=> sum + review.rating, 0);
+                                const totalRating = listing.reviews.reduce((sum, review) => sum + review.rating, 0);
                                 const averageRating = (totalRating / listing.reviews.length).toFixed(1);
                             %>
-                            <div class="position-absolute top-0 start-0 m-3">
-                                <span
-                                    class="badge bg-warning text-dark fs-6 px-2 py-2 shadow">
-                                    <i class="fas fa-star me-1"></i>
-                                    <%= averageRating %>
-                                </span>
-                            </div>
+                            <% if (averageRating >= 4.8) { %>
+                                <span class="guest-favorite">Guest favourite</span>
+                            <% } %>
                         <% } %>
+                        
+                        <!-- Wishlist Button -->
+                        <button class="wishlist-btn" onclick="event.preventDefault(); toggleWishlist(this);">
+                            <i class="far fa-heart"></i>
+                        </button>
                     </div>
-
-                    <!-- Card Body -->
-                    <div class="card-body p-4 d-flex flex-column">
-                        <!-- Title -->
-                        <h5 class="card-title fw-bold text-dark mb-3">
-                            <i class="fas fa-home text-primary me-2"></i>
-                            <%= listing.title %>
-                        </h5>
-
-                        <!-- Description -->
-                        <p class="card-text text-muted mb-3 flex-grow-1">
-                            <%= listing.description.length> 120 ? listing.description.substring(0, 120) +
-                                "..." : listing.description %>
-                        </p>
-
-                        <!-- Location -->
-                        <div class="mb-3">
-                            <p class="text-muted mb-2">
-                                <i class="fas fa-map-marker-alt text-danger me-2"></i>
-                                <span class="fw-semibold">
-                                    <%= listing.location %>, <%= listing.country %>
-                                </span>
-                            </p>
-                        </div>
-
-                        <!-- Rating Display -->
-                        <% if (listing.reviews && listing.reviews.length> 0) { %>
-                            <% const totalRating=listing.reviews.reduce((sum, review)=> sum + review.rating,
-                                0);
-                                const averageRating = (totalRating / listing.reviews.length).toFixed(1);
-                                const fullStars = Math.floor(averageRating);
+                    
+                    <div class="airbnb-card-content">
+                        <!-- Location and Rating -->
+                        <div class="card-location">
+                            <h3><%= listing.location %>, <%= listing.country %></h3>
+                            <% if (listing.reviews && listing.reviews.length > 0) { %>
+                                <% 
+                                    const totalRating = listing.reviews.reduce((sum, review) => sum + review.rating, 0);
+                                    const averageRating = (totalRating / listing.reviews.length).toFixed(2);
                                 %>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2">
-                                            <% for (let i=1; i <=5; i++) { %>
-                                                <span
-                                                    class="<%= i <= fullStars ? 'text-warning' : 'text-muted' %>">★</span>
-                                                <% } %>
-                                        </div>
-                                        <span class="text-dark fw-semibold me-2">
-                                            <%= averageRating %>
-                                        </span>
-                                        <span class="text-muted small">(<%= listing.reviews.length %>
-                                                <%= listing.reviews.length===1 ? 'review' : 'reviews' %>)
-                                        </span>
-                                    </div>
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span><%= averageRating %></span>
                                 </div>
-                        <% } else { %>
-                            <div class="mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="me-2">
-                                        <% for (let i=1; i <=5; i++) { %>
-                                            <span class="text-muted starability-result">★</span>
-                                        <% } %>
-                                    </div>
-                                    <span class="text-muted small">No reviews yet</span>
+                            <% } else { %>
+                                <div class="card-rating">
+                                    <span class="text-muted" style="font-size: 13px;">New</span>
                                 </div>
+                            <% } %>
+                        </div>
+                        
+                        <!-- Title -->
+                        <div class="card-title" title="<%= listing.title %>">
+                            <%= listing.title %>
+                        </div>
+                        
+                        <!-- Description (if short enough) -->
+                        <% if (listing.description && listing.description.length <= 50) { %>
+                            <div class="card-title text-airbnb-gray" style="font-size: 14px;">
+                                <%= listing.description %>
                             </div>
                         <% } %>
                         
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-2 mt-auto">
-                            <a href="/listings/<%= listing._id %>"
-                                class="btn btn-primary rounded-pill">
-                                <i class="fas fa-eye me-2"></i>View Details
-                            </a>
+                        <!-- Price -->
+                        <div class="card-price">
+                            <strong>₹<%= listing.price.toLocaleString('en-IN') %></strong> per night
                         </div>
                     </div>
-                </div>
-            </div>
-        <% }); %>
-    </div>
-
-    <!-- Empty State -->
-    <% if (listings.length===0) { %>
-        <div class="text-center py-5">
-            <div class="py-5">
-                <i class="fas fa-home display-1 text-muted mb-4"></i>
-                <h3 class="text-muted mb-3">No Listings Found</h3>
-                <p class="text-muted mb-4">Be the first to add a property listing!</p>
-                <a href="/listings/new" class="btn btn-primary btn-lg rounded-pill px-5">
-                    <i class="fas fa-plus me-2"></i>Add New Listing
                 </a>
-            </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <i class="fas fa-home display-1 text-muted mb-4 opacity-50"></i>
+            <h3 class="text-muted mb-3">No listings found</h3>
+            <p class="text-muted mb-4">Be the first to add a property!</p>
+            <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+                <a href="/listings/new" class="btn-airbnb btn-lg">
+                    <i class="fas fa-plus me-2"></i>Add Your First Listing
+                </a>
+            <% } else { %>
+                <a href="/auth/signup" class="btn-airbnb btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Sign up to add listing
+                </a>
+            <% } %>
         </div>
     <% } %>
 </div>
+
+<script>
+// Wishlist toggle functionality
+function toggleWishlist(button) {
+    const icon = button.querySelector('i');
+    if (icon.classList.contains('far')) {
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+        icon.style.color = '#FF385C';
+    } else {
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+        icon.style.color = '';
+    }
+}
+</script>
+
+<style>
+/* Additional styles for listings page */
+.airbnb-card {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animation for cards */
+.airbnb-card:nth-child(1) { animation-delay: 0.05s; }
+.airbnb-card:nth-child(2) { animation-delay: 0.1s; }
+.airbnb-card:nth-child(3) { animation-delay: 0.15s; }
+.airbnb-card:nth-child(4) { animation-delay: 0.2s; }
+.airbnb-card:nth-child(5) { animation-delay: 0.25s; }
+.airbnb-card:nth-child(6) { animation-delay: 0.3s; }
+</style>

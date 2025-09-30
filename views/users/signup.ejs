@@ -1,171 +1,220 @@
-<!--
-    SIGNUP PAGE TEMPLATE
-    ====================
-    
-    Purpose: User registration form for new WanderLust platform users
-    Layout: Uses boilerplate layout for consistency
-    
-    Features:
-    - Responsive card-based signup form
-    - Client-side form validation with Bootstrap
-    - Password strength indicator (basic implementation)
-    - Terms of service agreement checkbox
-    - Error message display from server
-    - Form data persistence on validation errors
-    - Auto-focus on username field for UX
-    
-    Form Fields:
-    - Username (required, unique, 3-50 chars)
-    - Email (required, valid email format, max 100 chars)
-    - Password (required, min 6 chars, max 100 chars)
-    - Terms agreement checkbox (required)
-    
-    Security Features:
-    - Form validation (client & server-side)
-    - CSRF protection (handled by server middleware)
-    - Password strength checking (basic implementation)
-    - Terms of service acceptance required
-    
-    Navigation:
-    - Link to login page for existing users
-    - Back to home button
-    
-    Server Integration:
-    - POST to /auth/signup
-    - Error messages from server flash middleware
-    - Form data persistence on validation errors
-    - Username and email uniqueness validation on server
--->
 <% layout('layouts/boilerplate') %>
 
-<!-- SIGNUP FORM CONTAINER -->
-<div class="bg-light py-5">
+<style>
+.auth-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: var(--airbnb-light-gray);
+}
 
-    <div class="container py-5">
+.auth-card {
+    background: white;
+    border: 1px solid var(--airbnb-border);
+    border-radius: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.auth-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--airbnb-dark);
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    color: var(--airbnb-gray);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+.form-control {
+    padding: 12px;
+    border: 1px solid var(--airbnb-border);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--airbnb-dark);
+    box-shadow: none;
+}
+
+.btn-auth {
+    background: var(--airbnb-red);
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.btn-auth:hover {
+    background: #E31C5F;
+    color: white;
+}
+
+.divider {
+    text-align: center;
+    margin: 24px 0;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--airbnb-border);
+}
+
+.divider span {
+    background: white;
+    padding: 0 16px;
+    position: relative;
+    color: var(--airbnb-gray);
+    font-size: 0.875rem;
+}
+
+.terms-text {
+    font-size: 0.875rem;
+    color: var(--airbnb-gray);
+    line-height: 1.5;
+}
+
+.terms-text a {
+    color: var(--airbnb-dark);
+    text-decoration: underline;
+}
+</style>
+
+<div class="auth-page py-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                
-                <!-- SIGNUP CARD -->
-                <div class="card shadow-lg border-0 rounded-4">
-                    
-                    <!-- CARD HEADER -->
-                    <div class="card-header bg-success text-white rounded-top-4 text-center py-4">
-                        <h1 class="mb-0 fw-bold">
-                            <i class="fas fa-user-plus me-3"></i>Sign Up
-                        </h1>
-                        <p class="mb-0 mt-2 opacity-75">Join the WanderLust community today</p>
+            <div class="col-lg-5 col-md-7">
+                <div class="auth-card">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <h1 class="auth-title">Welcome to TripNest</h1>
+                        <p class="auth-subtitle">Create your account to get started</p>
                     </div>
 
-                    <!-- CARD BODY WITH SIGNUP FORM -->
-                    <div class="card-body p-5">
-                        
-                        <!-- ERROR ALERT DISPLAY -->
-                        <!-- Shows server-side validation errors -->
-                        <% if (typeof error !== 'undefined' && error && error.trim && error.trim().length > 0) { %>
-                            <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <%= error %>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        <% } %>
+                    <!-- Error Alert -->
+                    <% if (typeof error !== 'undefined' && error && error.trim && error.trim().length > 0) { %>
+                        <div class="alert alert-danger rounded-3 d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <div><%= error %></div>
+                        </div>
+                    <% } %>
 
-                        <!-- SIGNUP FORM -->
-                        <!-- Bootstrap validation classes for client-side validation -->
-                        <form action="/auth/signup" method="POST" class="needs-validation" novalidate>
-                            <!-- USERNAME FIELD -->
-                            <div class="mb-4">
-                                <label for="username" class="form-label fw-bold">
-                                    <i class="fas fa-user text-primary me-2"></i>Username *
+                    <!-- Signup Form -->
+                    <form action="/auth/signup" method="POST" class="needs-validation" novalidate>
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold">Username</label>
+                            <input type="text" 
+                                   class="form-control"
+                                   id="username" 
+                                   name="username"
+                                   value="<%= typeof formData !== 'undefined' ? formData.username || '' : '' %>"
+                                   required 
+                                   maxlength="50" 
+                                   placeholder="Choose a unique username">
+                            <div class="form-text" style="font-size: 0.8rem;">
+                                3-50 characters, letters and numbers only
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid username.
+                            </div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Email Address</label>
+                            <input type="email" 
+                                   class="form-control"
+                                   id="email" 
+                                   name="email"
+                                   value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>"
+                                   required 
+                                   maxlength="100" 
+                                   placeholder="your.email@example.com">
+                            <div class="form-text" style="font-size: 0.8rem;">
+                                We'll never share your email with anyone
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid email address.
+                            </div>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <input type="password" 
+                                   class="form-control"
+                                   id="password" 
+                                   name="password" 
+                                   required 
+                                   minlength="6" 
+                                   maxlength="100"
+                                   placeholder="Create a secure password">
+                            <div class="form-text" style="font-size: 0.8rem;">
+                                Minimum 6 characters
+                            </div>
+                            <div class="invalid-feedback">
+                                Password must be at least 6 characters long.
+                            </div>
+                        </div>
+
+                        <!-- Terms Agreement -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="terms" 
+                                       required>
+                                <label class="form-check-label terms-text" for="terms">
+                                    I agree to the <a href="/listings">Terms of Service</a> and <a href="/listings">Privacy Policy</a>
                                 </label>
-                                <!-- Input with form data persistence for validation errors -->
-                                <input type="text" class="form-control form-control-lg rounded-3"
-                                    id="username" name="username"
-                                    value="<%= typeof formData !== 'undefined' ? formData.username || '' : '' %>"
-                                    required maxlength="50" placeholder="Choose a unique username">
-                                <!-- Helper text for field requirements -->
-                                <div class="form-text">
-                                    <i class="fas fa-info-circle me-1"></i>
-                                    Username must be unique and 3-50 characters long
-                                </div>
-                                <!-- Bootstrap validation feedback -->
                                 <div class="invalid-feedback">
-                                    Please provide a valid username.
+                                    You must agree to the terms and conditions.
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- EMAIL ADDRESS FIELD -->
-                            <div class="mb-4">
-                                <label for="email" class="form-label fw-bold">
-                                    <i class="fas fa-envelope text-success me-2"></i>Email Address *
-                                </label>
-                                <!-- Email input with validation -->
-                                <input type="email" class="form-control form-control-lg rounded-3"
-                                    id="email" name="email"
-                                    value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>"
-                                    required maxlength="100" placeholder="your.email@example.com">
-                                <!-- Privacy assurance text -->
-                                <div class="form-text">
-                                    <i class="fas fa-shield-alt me-1"></i>
-                                    We'll never share your email with anyone else
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please provide a valid email address.
-                                </div>
-                            </div>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-auth">
+                            Sign up
+                        </button>
+                    </form>
 
-                            <!-- PASSWORD FIELD -->
-                            <div class="mb-4">
-                                <label for="password" class="form-label fw-bold">
-                                    <i class="fas fa-lock text-warning me-2"></i>Password *
-                                </label>
-                                <!-- Password input with strength requirements -->
-                                <input type="password" class="form-control form-control-lg rounded-3"
-                                    id="password" name="password" required minlength="6" maxlength="100"
-                                    placeholder="Enter a secure password">
-                                <!-- Password requirements text -->
-                                <div class="form-text">
-                                    <i class="fas fa-key me-1"></i>
-                                    Password must be at least 6 characters long
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please provide a valid password (minimum 6 characters).
-                                </div>
-                            </div>
+                    <!-- Divider -->
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
 
-                            <!-- TERMS OF SERVICE AGREEMENT -->
-                            <div class="mb-4">
-                                <div class="form-check">
-                                    <!-- Required checkbox for legal agreement -->
-                                    <input class="form-check-input" type="checkbox" id="terms" required>
-                                    <label class="form-check-label" for="terms">
-                                        I agree to the <a href="/listings" class="text-decoration-none">Terms of Service</a>
-                                        and <a href="/listings" class="text-decoration-none">Privacy Policy</a> *
-                                    </label>
-                                    <div class="invalid-feedback">
-                                        You must agree to the terms and conditions.
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <p class="mb-0" style="color: var(--airbnb-gray);">
+                            Already have an account? 
+                            <a href="/auth/login" class="text-decoration-none fw-semibold" style="color: var(--airbnb-red);">
+                                Log in
+                            </a>
+                        </p>
+                    </div>
 
-                            <!-- FORM SUBMISSION BUTTONS -->
-                            <div class="d-grid gap-3">
-                                <!-- Primary Submit Button -->
-                                <button type="submit" class="btn btn-success btn-lg rounded-pill py-3">
-                                    <i class="fas fa-user-plus me-2"></i>Create Account
-                                </button>
-                                
-                                <!-- Link to Login Page -->
-                                <div class="text-center">
-                                    <span class="text-muted">Already have an account?</span>
-                                    <a href="/auth/login" class="text-decoration-none ms-1">Sign In</a>
-                                </div>
-                                
-                                <!-- Back to Home Button -->
-                                <a href="/" class="btn btn-outline-secondary rounded-pill py-3">
-                                    <i class="fas fa-arrow-left me-2"></i>Back to Home
-                                </a>
-                            </div>
-                        </form>
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="/" class="text-decoration-none" style="color: var(--airbnb-gray); font-size: 0.875rem;">
+                            <i class="fas fa-arrow-left me-1"></i>Back to home
+                        </a>
                     </div>
                 </div>
             </div>
@@ -173,9 +222,4 @@
     </div>
 </div>
 
-<!-- 
-    CLIENT-SIDE JAVASCRIPT
-    ======================
-    Handles form validation, password strength checking, and UX enhancements
--->
 <script src="/javascript/SignUpValidatation.js"></script>

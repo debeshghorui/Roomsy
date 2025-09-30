@@ -1,189 +1,95 @@
 <!--
-    FOOTER COMPONENT
-    ================
+    AIRBNB-STYLE FOOTER
+    ===================
     
-    Purpose: Site-wide footer with company information, navigation, and contact details
     Features:
-    - Responsive 4-column layout (collapses on mobile)
-    - Brand information with social media links
-    - Quick navigation links
-    - Support and legal links
-    - Contact information
-    - Copyright and branding message
-    
-    Layout Sections:
-    1. Brand & Social Media (col-lg-4)
-    2. Quick Links (col-lg-2)
-    3. Support Links (col-lg-3)
-    4. Contact Information (col-lg-3)
-    
-    Styling:
-    - Dark background with light text for contrast
-    - Primary color accents for headings and icons
-    - Consistent spacing and typography
-    - External links open in new tabs for security
+    - Multi-column layout with categorized links
+    - Support, Hosting, Airbnb sections
+    - Bottom bar with copyright and social links
 -->
-<footer class="bg-dark text-white py-5 mt-auto">
+<footer class="airbnb-footer">
     <div class="container">
-        <div class="row">
-            
-            <!-- BRAND AND SOCIAL MEDIA SECTION -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <!-- Brand Logo and Name -->
-                <h5 class="text-primary mb-3">
-                    <i class="fas fa-compass me-2"></i>WanderLust
-                </h5>
-                
-                <!-- Company Description -->
-                <p class="text-light opacity-75 mb-3">
-                    Discover extraordinary places and create unforgettable memories with our curated collection of
-                    unique destinations.
-                </p>
-                
-                <!-- Social Media Links -->
-                <div class="d-flex gap-2">
-                    <!-- Facebook -->
-                    <a href="https://facebook.com/wanderlust"
-                        class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    
-                    <!-- Twitter -->
-                    <a href="https://twitter.com/wanderlust"
-                        class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    
-                    <!-- Instagram -->
-                    <a href="https://instagram.com/wanderlust"
-                        class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    
-                    <!-- LinkedIn -->
-                    <a href="https://linkedin.com/company/wanderlust"
-                        class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- QUICK NAVIGATION LINKS -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h5 class="text-primary mb-3">Quick Links</h5>
-                <ul class="list-unstyled">
-                    <!-- Home Page -->
-                    <li class="mb-2">
-                        <a href="/" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-home me-2"></i>Home
-                        </a>
-                    </li>
-                    
-                    <!-- All Listings -->
-                    <li class="mb-2">
-                        <a href="/listings"
-                            class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-list me-2"></i>Listings
-                        </a>
-                    </li>
-                    
-                    <!-- Add New Listing -->
-                    <li class="mb-2">
-                        <a href="/listings/new"
-                            class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-plus me-2"></i>Add Listing
-                        </a>
-                    </li>
-                    
-                    <!-- About Page (placeholder link) -->
-                    <li class="mb-2">
-                        <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-info-circle me-2"></i>About
-                        </a>
-                    </li>
+        <!-- Main Footer Content -->
+        <div class="footer-content">
+            <!-- Support Section -->
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="/">Help Centre</a></li>
+                    <li><a href="/">Get help with a safety issue</a></li>
+                    <li><a href="/">AirCover</a></li>
+                    <li><a href="/">Anti-discrimination</a></li>
+                    <li><a href="/">Disability support</a></li>
+                    <li><a href="/">Cancellation options</a></li>
+                    <li><a href="/">Report neighbourhood concern</a></li>
                 </ul>
             </div>
 
-            <!-- SUPPORT AND LEGAL LINKS -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="text-primary mb-3">Support</h5>
-                <ul class="list-unstyled">
-                    <!-- Help Center -->
-                    <li class="mb-2">
-                        <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-question-circle me-2"></i>Help Center
-                        </a>
-                    </li>
-                    
-                    <!-- Safety Information -->
-                    <li class="mb-2">
-                        <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-shield-alt me-2"></i>Safety
-                        </a>
-                    </li>
-                    
-                    <!-- Terms of Service -->
-                    <li class="mb-2">
-                        <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-file-contract me-2"></i>Terms of Service
-                        </a>
-                    </li>
-                    
-                    <!-- Privacy Policy -->
-                    <li class="mb-2">
-                        <a href="/listings" class="text-light text-decoration-none opacity-75 d-flex align-items-center">
-                            <i class="fas fa-user-shield me-2"></i>Privacy Policy
-                        </a>
-                    </li>
+            <!-- Hosting Section -->
+            <div class="footer-section">
+                <h4>Hosting</h4>
+                <ul>
+                    <li><a href="/listings/new">TripNest your home</a></li>
+                    <li><a href="/">AirCover for Hosts</a></li>
+                    <li><a href="/">Hosting resources</a></li>
+                    <li><a href="/">Community forum</a></li>
+                    <li><a href="/">Hosting responsibly</a></li>
+                    <li><a href="/">Join a free Hosting class</a></li>
+                    <li><a href="/">Find a co-host</a></li>
                 </ul>
             </div>
 
-            <!-- CONTACT INFORMATION -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="text-primary mb-3">Contact</h5>
-                <div class="text-light opacity-75">
-                    <!-- Email -->
-                    <p class="mb-2 d-flex align-items-center">
-                        <i class="fas fa-envelope me-2 text-primary"></i>
-                        hello@wanderlust.com
-                    </p>
-                    
-                    <!-- Phone -->
-                    <p class="mb-2 d-flex align-items-center">
-                        <i class="fas fa-phone me-2 text-primary"></i>
-                        +1 (555) 123-4567
-                    </p>
-                    
-                    <!-- Address -->
-                    <p class="mb-2 d-flex align-items-center">
-                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                        123 Adventure St, Travel City
-                    </p>
-                </div>
+            <!-- Airbnb Section -->
+            <div class="footer-section">
+                <h4>TripNest</h4>
+                <ul>
+                    <li><a href="/">Newsroom</a></li>
+                    <li><a href="/">New features</a></li>
+                    <li><a href="/">Careers</a></li>
+                    <li><a href="/">Investors</a></li>
+                    <li><a href="/">Gift cards</a></li>
+                    <li><a href="/">TripNest.org emergency stays</a></li>
+                </ul>
             </div>
         </div>
 
-        <!-- DIVIDER LINE -->
-        <hr class="my-4 opacity-25">
-
-        <!-- BOTTOM COPYRIGHT SECTION -->
-        <div class="row align-items-center">
-            <!-- Copyright Notice -->
-            <div class="col-md-6">
-                <p class="mb-0 text-light opacity-75">
-                    &copy; 2024 WanderLust. All rights reserved.
-                </p>
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="footer-left">
+                <span>&copy; 2025 TripNest, Inc.</span>
+                <span class="mx-2">&middot;</span>
+                <div class="footer-links d-inline">
+                    <a href="/">Privacy</a>
+                    <span class="mx-2">&middot;</span>
+                    <a href="/">Terms</a>
+                    <span class="mx-2">&middot;</span>
+                    <a href="/">Sitemap</a>
+                    <span class="mx-2">&middot;</span>
+                    <a href="/">Company details</a>
+                </div>
             </div>
-            
-            <!-- Branding Message -->
-            <div class="col-md-6 text-md-end">
-                <p class="mb-0 text-light opacity-75">
-                    Made with <i class="fas fa-heart text-danger"></i> for travelers
-                </p>
+
+            <div class="footer-right">
+                <!-- Language and Currency -->
+                <span class="me-3">
+                    <i class="fas fa-globe me-1"></i>English (IN)
+                </span>
+                <span class="me-3">
+                    <i class="fas fa-rupee-sign me-1"></i>INR
+                </span>
+                
+                <!-- Social Links -->
+                <div class="social-links d-inline">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-# 🏠 Roomsy
+# 🏠 TripNest
 
 A full-stack web application for property listings and reviews, built with Node.js, Express, MongoDB, and EJS. Users can browse accommodations, create listings, leave reviews, and manage their bookings in a secure, user-friendly environment.
 
@@ -60,7 +60,7 @@ A full-stack web application for property listings and reviews, built with Node.
 ## 📁 Project Structure
 
 ```
-Roomsy/
+TripNest/
 ├── src/
 │   ├── controllers/         # Business logic layer
 │   │   ├── listing.controller.js
@@ -103,8 +103,8 @@ Roomsy/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/roomsy.git
-cd roomsy
+git clone https://github.com/yourusername/TripNest.git
+cd TripNest
 ```
 
 ### 2. Install Dependencies

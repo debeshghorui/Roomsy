@@ -1,175 +1,188 @@
-<!--
-    LOGIN PAGE TEMPLATE
-    ===================
-    
-    Purpose: User authentication login form for the WanderLust platform
-    Layout: Uses boilerplate layout for consistency
-    
-    Features:
-    - Responsive card-based login form
-    - Client-side form validation with Bootstrap
-    - Password visibility toggle functionality
-    - Remember me checkbox option
-    - Error message display from server
-    - Social login options (commented out for future use)
-    - Auto-focus on username field for UX
-    
-    Form Fields:
-    - Username/Email (required, max 100 chars)
-    - Password (required, with visibility toggle)
-    - Remember me checkbox
-    
-    Security Features:
-    - Form validation (client & server-side)
-    - CSRF protection (handled by server middleware)
-    - Password masking with optional visibility
-    
-    Navigation:
-    - Link to signup page for new users
-    - Back to home button
-    - Forgot password link (placeholder)
-    
-    Server Integration:
-    - POST to /auth/login
-    - Error messages from server flash middleware
-    - Form data persistence on validation errors
--->
 <% layout('layouts/boilerplate') %>
 
-<!-- LOGIN FORM CONTAINER -->
-<div class="bg-light py-5">
+<style>
+.auth-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: var(--airbnb-light-gray);
+}
 
-    <div class="container py-5">
+.auth-card {
+    background: white;
+    border: 1px solid var(--airbnb-border);
+    border-radius: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.auth-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--airbnb-dark);
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    color: var(--airbnb-gray);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+.form-control {
+    padding: 12px;
+    border: 1px solid var(--airbnb-border);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: var(--airbnb-dark);
+    box-shadow: none;
+}
+
+.btn-auth {
+    background: var(--airbnb-red);
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.btn-auth:hover {
+    background: #E31C5F;
+    color: white;
+}
+
+.divider {
+    text-align: center;
+    margin: 24px 0;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--airbnb-border);
+}
+
+.divider span {
+    background: white;
+    padding: 0 16px;
+    position: relative;
+    color: var(--airbnb-gray);
+    font-size: 0.875rem;
+}
+</style>
+
+<div class="auth-page py-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
-                
-                <!-- LOGIN CARD -->
-                <div class="card shadow-lg border-0 rounded-4">
-                    
-                    <!-- CARD HEADER -->
-                    <div class="card-header bg-primary text-white rounded-top-4 text-center py-4">
-                        <h1 class="mb-0 fw-bold">
-                            <i class="fas fa-sign-in-alt me-3"></i>Sign In
-                        </h1>
-                        <p class="mb-0 mt-2 opacity-75">Welcome back to WanderLust</p>
+                <div class="auth-card">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <h1 class="auth-title">Welcome back to TripNest</h1>
+                        <p class="auth-subtitle">Log in to continue</p>
                     </div>
 
-                    <!-- CARD BODY WITH LOGIN FORM -->
-                    <div class="card-body p-5">
-                        
-                        <!-- ERROR ALERT DISPLAY -->
-                        <!-- Shows server-side validation errors -->
-                        <% if (typeof error !== 'undefined' && error && error.trim && error.trim().length > 0) { %>
-                            <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <%= error %>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        <% } %>
+                    <!-- Error Alert -->
+                    <% if (typeof error !== 'undefined' && error && error.trim && error.trim().length > 0) { %>
+                        <div class="alert alert-danger rounded-3 d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <div><%= error %></div>
+                        </div>
+                    <% } %>
 
-                        <!-- LOGIN FORM -->
-                        <!-- Bootstrap validation classes for client-side validation -->
-                        <form action="/auth/login" method="POST" class="needs-validation" novalidate>
-                            <!-- USERNAME/EMAIL FIELD -->
-                            <div class="mb-4">
-                                <label for="username" class="form-label fw-bold">
-                                    <i class="fas fa-user text-primary me-2"></i>Username or Email *
-                                </label>
-                                <!-- Input with form data persistence for validation errors -->
-                                <input type="text" 
-                                       class="form-control form-control-lg rounded-3" 
-                                       id="username" 
-                                       name="username"
-                                       value="<%= typeof formData !== 'undefined' ? formData.username || '' : '' %>"
+                    <!-- Login Form -->
+                    <form action="/auth/login" method="POST" class="needs-validation" novalidate>
+                        <!-- Username/Email Field -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold">Email or Username</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="username" 
+                                   name="username"
+                                   value="<%= typeof formData !== 'undefined' ? formData.username || '' : '' %>"
+                                   required 
+                                   maxlength="100" 
+                                   placeholder="Enter your email or username">
+                            <div class="invalid-feedback">
+                                Please provide your username or email.
+                            </div>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                <input type="password" 
+                                       class="form-control border-end-0" 
+                                       id="password" 
+                                       name="password" 
                                        required 
-                                       maxlength="100" 
-                                       placeholder="Enter your username or email">
-                                <!-- Bootstrap validation feedback -->
-                                <div class="invalid-feedback">
-                                    Please provide your username or email.
-                                </div>
+                                       placeholder="Enter your password">
+                                <button class="btn btn-outline-secondary bg-white" 
+                                        type="button" 
+                                        id="togglePassword"
+                                        style="border-left: 0;"
+                                        aria-label="Toggle password visibility">
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </button>
                             </div>
+                            <div class="invalid-feedback">
+                                Please provide your password.
+                            </div>
+                        </div>
 
-                            <!-- PASSWORD FIELD WITH VISIBILITY TOGGLE -->
-                            <div class="mb-4">
-                                <label for="password" class="form-label fw-bold">
-                                    <i class="fas fa-lock text-warning me-2"></i>Password *
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">
+                                    Remember me
                                 </label>
-                                <!-- Input group for password with toggle button -->
-                                <div class="input-group">
-                                    <input type="password" 
-                                           class="form-control form-control-lg rounded-start-3" 
-                                           id="password" 
-                                           name="password" 
-                                           required 
-                                           placeholder="Enter your password">
-                                    <!-- Password visibility toggle button -->
-                                    <button class="btn btn-outline-secondary rounded-end-3" 
-                                            type="button" 
-                                            id="togglePassword"
-                                            aria-label="Toggle password visibility">
-                                        <i class="fas fa-eye" id="toggleIcon"></i>
-                                    </button>
-                                </div>
-                                <div class="invalid-feedback">
-                                    Please provide your password.
-                                </div>
                             </div>
+                            <a href="#" class="text-decoration-none" style="color: var(--airbnb-dark); font-size: 0.875rem;">
+                                Forgot password?
+                            </a>
+                        </div>
 
-                            <!-- REMEMBER ME AND FORGOT PASSWORD ROW -->
-                            <div class="row mb-4">
-                                <!-- Remember Me Checkbox -->
-                                <div class="col-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                        <label class="form-check-label" for="remember">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                </div>
-                                <!-- Forgot Password Link -->
-                                <div class="col-6 text-end">
-                                    <a href="/auth/login" class="text-decoration-none small">
-                                        <i class="fas fa-question-circle me-1"></i>Forgot Password?
-                                    </a>
-                                </div>
-                            </div>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-auth">
+                            Log in
+                        </button>
+                    </form>
 
-                            <!-- FORM SUBMISSION BUTTONS -->
-                            <div class="d-grid gap-3">
-                                <!-- Primary Submit Button -->
-                                <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3">
-                                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
-                                </button>
-                                
-                                <!-- Link to Signup Page -->
-                                <div class="text-center my-3">
-                                    <span class="text-muted">Don't have an account?</span>
-                                    <a href="/auth/signup" class="text-decoration-none ms-1 fw-semibold">Sign Up</a>
-                                </div>
+                    <!-- Divider -->
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
 
-                                <!-- Back to Home Button -->
-                                <a href="/" class="btn btn-outline-secondary rounded-pill py-3">
-                                    <i class="fas fa-arrow-left me-2"></i>Back to Home
-                                </a>
-                            </div>
-                        </form>
+                    <!-- Sign Up Link -->
+                    <div class="text-center">
+                        <p class="mb-0" style="color: var(--airbnb-gray);">
+                            Don't have an account? 
+                            <a href="/auth/signup" class="text-decoration-none fw-semibold" style="color: var(--airbnb-red);">
+                                Sign up
+                            </a>
+                        </p>
+                    </div>
 
-                        <!-- SOCIAL LOGIN OPTIONS (FUTURE IMPLEMENTATION) -->
-                        <!-- Commented out for future OAuth integration -->
-                        <!-- <div class="mt-4 pt-4 border-top">
-                            <div class="text-center mb-3">
-                                <small class="text-muted">Or sign in with</small>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-outline-danger rounded-pill" type="button">
-                                    <i class="fab fa-google me-2"></i>Continue with Google
-                                </button>
-                                <button class="btn btn-outline-primary rounded-pill" type="button">
-                                    <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
-                                </button>
-                            </div>
-                        </div> -->
+                    <!-- Back to Home -->
+                    <div class="text-center mt-4">
+                        <a href="/" class="text-decoration-none" style="color: var(--airbnb-gray); font-size: 0.875rem;">
+                            <i class="fas fa-arrow-left me-1"></i>Back to home
+                        </a>
                     </div>
                 </div>
             </div>
@@ -177,9 +190,4 @@
     </div>
 </div>
 
-<!-- 
-    CLIENT-SIDE JAVASCRIPT
-    ======================
-    Handles form validation, password visibility, and UX enhancements
--->
 <script src="/javascript/LogInValidatation.js"></script>
