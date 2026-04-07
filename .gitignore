@@ -1,5 +1,6 @@
 # My custom ignores
 /myDocs
+.vscode
 
 # Dependencies
 /node_modules
